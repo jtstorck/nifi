@@ -41,5 +41,6 @@
         <module>nifi-record-serialization-service-api</module>
         <module>nifi-record-serialization-services-bundle</module>
         <module>nifi-hwx-schema-registry-bundle</module>
+        <module>nifi-delegated-action-service-api</module>
     </modules>
 </project>

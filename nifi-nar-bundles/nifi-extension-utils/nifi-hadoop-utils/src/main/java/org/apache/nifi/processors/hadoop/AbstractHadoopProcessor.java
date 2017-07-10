@@ -31,6 +31,7 @@ import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.PropertyValue;
 import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;
+import org.apache.nifi.delegation.DelegatedActionService;
 import org.apache.nifi.hadoop.KerberosProperties;
 import org.apache.nifi.hadoop.SecurityUtil;
 import org.apache.nifi.logging.ComponentLog;
@@ -104,6 +105,12 @@ public abstract class AbstractHadoopProcessor extends AbstractProcessor {
             .required(false)
             .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
             .dynamicallyModifiesClasspath(true)
+            .build();
+
+    public static final PropertyDescriptor HADOOP_ACTION_SERVICE = new PropertyDescriptor.Builder()
+            .name("Hadoop Delegated Action Service")
+            .required(false)
+            .identifiesControllerService(DelegatedActionService.class)
             .build();
 
     public static final String ABSOLUTE_HDFS_PATH_ATTRIBUTE = "absolute.hdfs.path";
