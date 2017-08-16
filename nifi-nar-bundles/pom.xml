@@ -237,6 +237,18 @@
                 <version>1.4.0-SNAPSHOT</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>org.apache.nifi</groupId>
+                <artifactId>nifi-delegated-action-service-api</artifactId>
+                <version>1.4.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.nifi</groupId>
+                <artifactId>nifi-delegated-authorization-service-api</artifactId>
+                <version>1.4.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

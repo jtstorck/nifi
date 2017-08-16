@@ -14,8 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.nifi.delegation;
+package org.apache.nifi.hadoop.delegation;
 
-public interface DelegatedAction {
-    <Result> Result run();
+import java.io.File;
+
+import org.apache.nifi.delegation.authorization.DelegatedCredential;
+
+import com.google.common.base.Preconditions;
+
+public class KerberosCredential implements DelegatedCredential<File> {
+    private final File keytab;
+
+    public KerberosCredential(File keytab) {
+        Preconditions.checkNotNull(keytab, "keytab can not be null");
+        this.keytab = keytab;
+    }
+
+    @Override
+    public File getCredential() {
+        return keytab;
+    }
 }

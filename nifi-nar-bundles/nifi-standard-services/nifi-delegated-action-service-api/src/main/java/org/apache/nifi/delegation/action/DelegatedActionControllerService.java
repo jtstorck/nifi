@@ -14,15 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.nifi.hadoop;
+package org.apache.nifi.delegation.action;
 
-import java.security.PrivilegedExceptionAction;
+import org.apache.nifi.controller.ControllerService;
 
-import org.apache.nifi.delegation.DelegatedAction;
-
-public class HadoopDelegatedAction implements DelegatedAction {
-    @Override
-    public <Result> Result run() {
-        return null;
-    }
+public interface DelegatedActionControllerService extends DelegatedActionService, ControllerService {
 }

@@ -81,5 +81,10 @@
             <artifactId>nifi-delegated-action-service-api</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.nifi</groupId>
+            <artifactId>nifi-delegated-authorization-service-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

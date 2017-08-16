@@ -194,7 +194,7 @@ public class GetHDFS extends AbstractHadoopProcessor {
         props.add(RECURSE_SUBDIRS);
         props.add(KEEP_SOURCE_FILE);
         props.add(FILE_FILTER_REGEX);
-        props.add(FILTER_MATCH_NAME_ONLY);
+        props.add( );
         props.add(IGNORE_DOTTED_FILES);
         props.add(MIN_AGE);
         props.add(MAX_AGE);

@@ -14,17 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.nifi.delegation;
+package org.apache.nifi.delegation.authorization;
 
-import java.io.IOException;
+public interface DelegatedCredential<C> {
 
-import org.apache.nifi.controller.ControllerService;
-
-public interface DelegatedActionService extends ControllerService {
-
-    <Result> Result performAction(DelegatedAction action) throws IOException, InterruptedException;
-
-    <Result> Result performAction(String identity, DelegatedAction action) throws IOException, InterruptedException;
-
-    <Action, Result> Result performAction(String identity, Action action) throws IOException, InterruptedException;
+    C getCredential();
 }
