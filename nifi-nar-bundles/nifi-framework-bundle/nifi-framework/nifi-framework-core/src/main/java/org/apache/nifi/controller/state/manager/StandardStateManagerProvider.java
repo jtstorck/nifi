@@ -73,7 +73,7 @@ public class StandardStateManagerProvider implements StateManagerProvider{
         final StateProvider localProvider = createLocalStateProvider(properties,variableRegistry);
 
         final StateProvider clusterProvider;
-        if (properties.isNode()) {
+        if (properties.isNode() || properties.isStartEmbeddedZooKeeper()) {
             clusterProvider = createClusteredStateProvider(properties,variableRegistry);
         } else {
             clusterProvider = null;
@@ -214,6 +214,7 @@ public class StandardStateManagerProvider implements StateManagerProvider{
                 + providerId.trim() + "] in the file " + configFile.getAbsolutePath());
         }
 
+        provider.enable();
         return provider;
     }
 

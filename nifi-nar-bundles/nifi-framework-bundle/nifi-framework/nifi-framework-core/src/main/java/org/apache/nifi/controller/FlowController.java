@@ -597,7 +597,7 @@ public class FlowController implements EventAccess, ControllerServiceProvider, R
         }
 
         // Initialize the Embedded ZooKeeper server, if applicable
-        if (nifiProperties.isStartEmbeddedZooKeeper() && configuredForClustering) {
+        if (nifiProperties.isStartEmbeddedZooKeeper()) {
             try {
                 zooKeeperStateServer = ZooKeeperStateServer.create(nifiProperties);
                 zooKeeperStateServer.start();
@@ -4026,7 +4026,7 @@ public class FlowController implements EventAccess, ControllerServiceProvider, R
                     registerForClusterCoordinator(true);
 
                     leaderElectionManager.start();
-                    stateManagerProvider.enableClusterProvider();
+//                    stateManagerProvider.enableClusterProvider();
 
                     heartbeat();
                 } else {
