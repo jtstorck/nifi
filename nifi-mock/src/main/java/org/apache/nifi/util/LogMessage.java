@@ -17,10 +17,12 @@
 package org.apache.nifi.util;
 
 import org.slf4j.Marker;
+import org.slf4j.helpers.MessageFormatter;
 
 public class LogMessage {
     private final Marker marker;
     private final String msg;
+    private final String formattedMessage;
     private final Throwable throwable;
     private final Object[] args;
     public LogMessage(final Marker marker, final String msg, final Throwable t, final Object... args) {
@@ -28,6 +30,7 @@ public class LogMessage {
         this.msg = msg;
         this.throwable = t;
         this.args = args;
+        this.formattedMessage = MessageFormatter.arrayFormat(msg, args).getMessage();
     }
 
     public Marker getMarker() {
@@ -41,6 +44,10 @@ public class LogMessage {
     }
     public Object[] getArgs() {
         return args;
+    }
+
+    public String getFormattedMessage() {
+        return formattedMessage;
     }
 
     @Override

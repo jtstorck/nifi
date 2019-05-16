@@ -106,7 +106,8 @@ public class MockComponentLog implements ComponentLog {
 
     @Override
     public void warn(final String msg, final Throwable t) {
-        warn("{} " + msg, new Object[]{component}, t);
+        String format = "{} " + msg;
+        logger.warn(format, component, t);
     }
 
     @Override
@@ -134,14 +135,15 @@ public class MockComponentLog implements ComponentLog {
     @Override
     public void warn(String msg) {
         msg = "{} " + msg;
-        logger.warn(msg, component);
+        final Object[] os = {component};
+
+        logger.warn(msg, os);
     }
 
     @Override
     public void trace(String msg, Throwable t) {
-        msg = "{} " + msg;
-        final Object[] os = {component};
-        logger.trace(msg, os, t);
+        String format = "{} " + msg;
+        logger.trace(format, component, t);
     }
 
     @Override
@@ -154,8 +156,7 @@ public class MockComponentLog implements ComponentLog {
     @Override
     public void trace(String msg) {
         msg = "{} " + msg;
-        final Object[] os = {component};
-        logger.trace(msg, os);
+        logger.trace(msg, component);
     }
 
     @Override
@@ -195,12 +196,7 @@ public class MockComponentLog implements ComponentLog {
     @Override
     public void info(String msg, Throwable t) {
         msg = "{} " + msg;
-        final Object[] os = {component};
-
-        logger.info(msg, os);
-        if (logger.isDebugEnabled()) {
-            logger.info("", t);
-        }
+        logger.info(msg, component, t);
     }
 
     @Override
@@ -237,13 +233,8 @@ public class MockComponentLog implements ComponentLog {
 
     @Override
     public void error(String msg, Throwable t) {
-        msg = "{} " + msg;
-        final Object[] os = {component};
-
-        logger.error(msg, os, t);
-        if (logger.isDebugEnabled()) {
-            logger.error("", t);
-        }
+        String format = "{} " + msg;
+        logger.error(format, component, t);
     }
 
     @Override
@@ -278,10 +269,8 @@ public class MockComponentLog implements ComponentLog {
 
     @Override
     public void debug(String msg, Throwable t) {
-        msg = "{} " + msg;
-        final Object[] os = {component};
-
-        logger.debug(msg, os, t);
+        String format = "{} " + msg;
+        logger.debug(format, component, t);
     }
 
     @Override

@@ -1,11 +1,13 @@
 package org.apache.nifi.util;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
 /*
@@ -76,19 +78,20 @@ public class CapturingLogger implements Logger {
 
     @Override
     public void trace(String format, Object arg) {
-        traceMessages.add(new LogMessage(null, format, null, arg));
+        traceMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg).getThrowable(), arg));
         logger.trace(format, arg);
     }
 
     @Override
     public void trace(String format, Object arg1, Object arg2) {
-        traceMessages.add(new LogMessage(null, format, null, arg1, arg2));
+        traceMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg1, arg2).getThrowable(), arg1, arg2));
         logger.trace(format, arg1, arg2);
     }
 
     @Override
     public void trace(String format, Object... arguments) {
-        traceMessages.add(new LogMessage(null, format, null, arguments));
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(format, arguments);
+        traceMessages.add(new LogMessage(null, format, formattingTuple.getThrowable(), formattingTuple.getArgArray()));
         logger.trace(format, arguments);
     }
 
@@ -112,20 +115,21 @@ public class CapturingLogger implements Logger {
 
     @Override
     public void trace(Marker marker, String format, Object arg) {
-        traceMessages.add(new LogMessage(marker, format, null, arg));
+        traceMessages.add(new LogMessage(marker, format, MessageFormatter.format(format, arg).getThrowable(), arg));
         logger.trace(marker, format, arg);
 
     }
 
     @Override
     public void trace(Marker marker, String format, Object arg1, Object arg2) {
-        traceMessages.add(new LogMessage(marker, format, null, arg1, arg2));
+        traceMessages.add(new LogMessage(marker, format, MessageFormatter.format(format, arg1, arg2).getThrowable(), arg1, arg2));
         logger.trace(marker, format, arg1, arg2);
     }
 
     @Override
     public void trace(Marker marker, String format, Object... argArray) {
-        traceMessages.add(new LogMessage(marker, format, null, argArray));
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(format, argArray);
+        traceMessages.add(new LogMessage(marker, format, formattingTuple.getThrowable(), formattingTuple.getArgArray()));
         logger.trace(marker, format, argArray);
     }
 
@@ -149,19 +153,20 @@ public class CapturingLogger implements Logger {
 
     @Override
     public void debug(String format, Object arg) {
-        debugMessages.add(new LogMessage(null, format, null, arg));
+        debugMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg).getThrowable(), arg));
         logger.debug(format, arg);
     }
 
     @Override
     public void debug(String format, Object arg1, Object arg2) {
-        debugMessages.add(new LogMessage(null, format, null, arg1, arg2));
+        debugMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg1, arg2).getThrowable(), arg1, arg2));
         logger.debug(format, arg1, arg2);
     }
 
     @Override
     public void debug(String format, Object... arguments) {
-        debugMessages.add(new LogMessage(null, format, null, arguments));
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(format, arguments);
+        debugMessages.add(new LogMessage(null, format, formattingTuple.getThrowable(), formattingTuple.getArgArray()));
         logger.debug(format, arguments);
     }
 
@@ -185,14 +190,14 @@ public class CapturingLogger implements Logger {
 
     @Override
     public void debug(Marker marker, String format, Object arg) {
-        debugMessages.add(new LogMessage(marker, format, null, arg));
+        debugMessages.add(new LogMessage(marker, format, MessageFormatter.format(format, arg).getThrowable(), arg));
         logger.debug(marker, format, arg);
 
     }
 
     @Override
     public void debug(Marker marker, String format, Object arg1, Object arg2) {
-        debugMessages.add(new LogMessage(marker, format, null, arg1, arg2));
+        debugMessages.add(new LogMessage(marker, format, MessageFormatter.format(format, arg1, arg2).getThrowable(), arg1, arg2));
         logger.debug(marker, format, arg1, arg2);
     }
 
@@ -226,13 +231,14 @@ public class CapturingLogger implements Logger {
 
     @Override
     public void info(String format, Object arg1, Object arg2) {
-        this.info(format, new Object[] { arg1, arg2 });
+        infoMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg1, arg2).getThrowable(), arg1, arg2));
+        logger.info(format, arg1, arg2);
     }
 
     @Override
     public void info(String format, Object... arguments) {
-        String message = MessageFormatter.arrayFormat(format, arguments).getMessage();
-        infoMessages.add(new LogMessage(null, message, null, arguments));
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(format, arguments);
+        infoMessages.add(new LogMessage(null, format, formattingTuple.getThrowable(), formattingTuple.getArgArray()));
         logger.info(format, arguments);
     }
 
@@ -296,13 +302,14 @@ public class CapturingLogger implements Logger {
 
     @Override
     public void warn(String format, Object arg1, Object arg2) {
-        this.warn(format, new Object[] { arg1, arg2 });
+        warnMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg1, arg2).getThrowable(), arg1, arg2));
+        logger.warn(format, arg1, arg2);
     }
 
     @Override
     public void warn(String format, Object... arguments) {
-        String message = MessageFormatter.arrayFormat(format, arguments).getMessage();
-        warnMessages.add(new LogMessage(null, message, null, arguments));
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(format, arguments);
+        warnMessages.add(new LogMessage(null, format, formattingTuple.getThrowable(), formattingTuple.getArgArray()));
         logger.warn(format, arguments);
     }
 
@@ -362,19 +369,20 @@ public class CapturingLogger implements Logger {
 
     @Override
     public void error(String format, Object arg) {
-        errorMessages.add(new LogMessage(null, format, null, arg));
+        errorMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg).getThrowable(), arg));
         logger.error(format, arg);
     }
 
     @Override
     public void error(String format, Object arg1, Object arg2) {
-        errorMessages.add(new LogMessage(null, format, null, arg1, arg2));
+        errorMessages.add(new LogMessage(null, format, MessageFormatter.format(format, arg1, arg2).getThrowable(), arg1, arg2));
         logger.error(format, arg1, arg2);
     }
 
     @Override
     public void error(String format, Object... arguments) {
-        errorMessages.add(new LogMessage(null, format, null, arguments));
+        FormattingTuple formattingTuple = MessageFormatter.arrayFormat(format, arguments);
+        errorMessages.add(new LogMessage(null, format, formattingTuple.getThrowable(), formattingTuple.getArgArray()));
         logger.error(format, arguments);
     }
 
