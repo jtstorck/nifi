@@ -15,18 +15,32 @@
 
 language: java
 
-env:
-  - USER_LANGUAGE=en USER_REGION=US'
-  - USER_LANGUAGE=fr USER_REGION=FR'
-  - USER_LANGUAGE=ja USER_REGION=JP'
+matrix:
+  include:
+    - name: "Java 8 EN"
+      jdk: openjdk8
+      env: USER_LANGUAGE=en USER_REGION=US'
+    - name: "Java 8 FR"
+      jdk: openjdk8
+      env: USER_LANGUAGE=fr USER_REGION=FR'
+    - name: "Java 8 JA"
+      jdk: openjdk8
+      env: USER_LANGUAGE=ja USER_REGION=JP'
+    - name: "Java 11 EN"
+      # Do not specify "jdk:" here, install-jdk.sh will download the JDK set JAVA_HOME appropriately
+      env: USER_LANGUAGE=en USER_REGION=US'
+      before_script:
+        # Download the newest version of sormuras' install-jdk.sh to /tmp
+        # install-jdk.sh is used by Travis internally, sormoras is the maintainer of that script
+        - wget -O /tmp/install-jdk.sh https://github.com/sormuras/bach/raw/master/install-jdk.sh
+        # Need to specifically install AdoptOpenJDK 11.0.4 (Linux, HotSpot) since Travis does not offer it by default
+        # The link to the AdoptOpenJDK 11.0.4 .tar.gz is taken directly from AdoptOpenJDK's website
+        - source /tmp/install-jdk.sh --url 'https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jdk_x64_linux_hotspot_11.0.4_11.tar.gz'
 
 os:
   - linux
 
-jdk:
-  - openjdk8
-
-# Caches mvn repository in order to speed upbuilds
+# Caches mvn repository in order to speed up builds
 cache:
   directories:
     - $HOME/.m2
@@ -55,4 +69,6 @@ script:
   # Note: The reason the sed is done as part of script is to ensure the pom hack 
   # won't affect the 'clean install' above
   - bash .travis.sh
+  # Output maven version info to display the Java version used by maven
+  - mvn -v
   - mvn -T 1C clean install -Pcontrib-check,include-grpc,include-atlas,include-hive3 -Ddir-only | grep -v -F -f .travis-output-filters && exit ${PIPESTATUS[0]}
