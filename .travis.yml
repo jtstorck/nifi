@@ -39,19 +39,22 @@ matrix:
         # Need to specifically install AdoptOpenJDK 11.0.4 (Linux, HotSpot) since Travis does not offer it by default
         # The link to the AdoptOpenJDK 11.0.4 .tar.gz is taken directly from AdoptOpenJDK's website
         - source /tmp/install-jdk.sh --url 'https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jdk_x64_linux_hotspot_11.0.4_11.tar.gz'
+    - name: "Java 12 EN"
+      jdk: openjdk12
+      env: USER_LANGUAGE=en USER_REGION=US'
 
 os:
   - linux
+
+before_cache:
+  # Remove nifi repo again to save travis from caching it
+  - rm -rf $HOME/.m2/repository/org/apache/nifi/
 
 # Caches mvn repository in order to speed up builds
 cache:
   directories:
     - $HOME/.m2
     - $HOME/.npm
-
-before_cache:
-  # Remove nifi repo again to save travis from caching it
-  - rm -rf $HOME/.m2/repository/org/apache/nifi/
 
 # before_install aids in a couple workarounds for issues within the Travis-CI environment
 #   1. Workaround for buffer overflow issues with OpenJDK versions of java as per https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165135711
@@ -74,4 +77,4 @@ script:
   - bash .travis.sh
   # Output maven version info to display the Java version used by maven
   - mvn -v
-  - mvn -T 1C clean install -DskipTests -Pcontrib-check,include-grpc,include-atlas,include-hive3 -Ddir-only | grep -v -F -f .travis-output-filters && exit ${PIPESTATUS[0]}
+  - mvn -T 1C clean install -Ddir-only -Pcontrib-check,include-grpc,include-atlas,include-hive3 -Ddir-only | grep -v -F -f .travis-output-filters && exit ${PIPESTATUS[0]}
