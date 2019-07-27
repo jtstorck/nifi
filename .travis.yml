@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Don't need docker, setting "sudo: false" has faster startup by using a container instead of VM
 sudo: false
 
 language: java
@@ -73,4 +74,4 @@ script:
   - bash .travis.sh
   # Output maven version info to display the Java version used by maven
   - mvn -v
-  - mvn -T 1C clean install -Pcontrib-check,include-grpc,include-atlas,include-hive3 -Ddir-only | grep -v -F -f .travis-output-filters && exit ${PIPESTATUS[0]}
+  - mvn -T 1C clean install -DskipTests -Pcontrib-check,include-grpc,include-atlas,include-hive3 -Ddir-only | grep -v -F -f .travis-output-filters && exit ${PIPESTATUS[0]}
