@@ -39,9 +39,6 @@ matrix:
         # Need to specifically install AdoptOpenJDK 11.0.4 (Linux, HotSpot) since Travis does not offer it by default
         # The link to the AdoptOpenJDK 11.0.4 .tar.gz is taken directly from AdoptOpenJDK's website
         - source /tmp/install-jdk.sh --url 'https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jdk_x64_linux_hotspot_11.0.4_11.tar.gz'
-    - name: "Java 12 EN"
-      jdk: openjdk12
-      env: USER_LANGUAGE=en USER_REGION=US'
 
 os:
   - linux
@@ -63,7 +60,7 @@ before_install:
   - sudo hostname "$(hostname | cut -c1-63)"
   - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
   - sed -i.bak -e 's|https://nexus.codehaus.org/snapshots/|https://oss.sonatype.org/content/repositories/codehaus-snapshots/|g' ~/.m2/settings.xml
-  - echo "MAVEN_OPTS='-Xmx2g -XX:+UseG1GC'" > ~/.mavenrc
+  - echo "MAVEN_OPTS='-Xmx2g -XX:TieredStopAtLevel=1 -XX:+UseParallelGC'" > ~/.mavenrc
   - cat ~/.mavenrc
   # Remove nifi repo again to save travis from caching it
   - rm -rf $HOME/.m2/repository/org/apache/nifi/
