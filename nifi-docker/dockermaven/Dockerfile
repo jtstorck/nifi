@@ -16,7 +16,7 @@
 # under the License.
 #
 
-FROM openjdk:8-jre AS artifactbase
+FROM openjdk:11.0-jre AS artifactbase
 LABEL maintainer="Apache NiFi <dev@nifi.apache.org>"
 
 ARG NIFI_VERSION
@@ -52,7 +52,7 @@ RUN mkdir -p ${NIFI_HOME}/conf \
     && mkdir -p ${NIFI_HOME}/state \
     && mkdir -p ${NIFI_LOG_DIR}
 
-FROM openjdk:8-jre
+FROM openjdk:11.0-jre
 LABEL maintainer="Apache NiFi <dev@nifi.apache.org>"
 
 ARG UID=1000
